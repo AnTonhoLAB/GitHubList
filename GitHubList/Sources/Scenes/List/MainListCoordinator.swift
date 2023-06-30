@@ -21,7 +21,7 @@ class MainListCoordinator: GGCoordinator {
         viewModel.navigation
             .filter { $0.type == .openDetail}
             .drive(onNext:  { [openDetail] _ in
-                openDetail()
+                openDetail(viewController)
             })
             .disposed(by: viewController.disposeBag)
         
