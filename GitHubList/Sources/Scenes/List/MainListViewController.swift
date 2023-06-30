@@ -27,9 +27,21 @@ class MainListViewController: UIViewController, GGAlertableViewController {
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
     override func viewDidLoad() {
-        view.addSubview(mainView)
         
+        setupLayout()
+    }
+}
+
+extension MainListViewController: ViewCoded {
+    func setupViews() {
+        view.addSubview(mainView)
+    }
+    
+    func setupViewConfigs() {
         mainView.backgroundColor = .red
+    }
+    
+    func setupConstraints() {
         
         mainView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         mainView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
