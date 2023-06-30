@@ -99,13 +99,11 @@
 		6B07FFC52A4E65B900796D8A /* GitHubList */ = {
 			isa = PBXGroup;
 			children = (
-				6B07FFC62A4E65B900796D8A /* AppDelegate.swift */,
-				6B07FFC82A4E65B900796D8A /* SceneDelegate.swift */,
+				6B07FFF62A4E684A00796D8A /* App */,
+				6B07FFF72A4E6A8700796D8A /* Sources */,
 				6B07FFCA2A4E65B900796D8A /* ViewController.swift */,
 				6B07FFCC2A4E65B900796D8A /* Main.storyboard */,
-				6B07FFCF2A4E65BB00796D8A /* Assets.xcassets */,
 				6B07FFD12A4E65BB00796D8A /* LaunchScreen.storyboard */,
-				6B07FFD42A4E65BB00796D8A /* Info.plist */,
 			);
 			path = GitHubList;
 			sourceTree = "<group>";
@@ -125,6 +123,32 @@
 				6B07FFE92A4E65BC00796D8A /* GitHubListUITestsLaunchTests.swift */,
 			);
 			path = GitHubListUITests;
+			sourceTree = "<group>";
+		};
+		6B07FFF62A4E684A00796D8A /* App */ = {
+			isa = PBXGroup;
+			children = (
+				6B07FFD42A4E65BB00796D8A /* Info.plist */,
+				6B07FFF82A4E6AAB00796D8A /* Assets */,
+				6B07FFC62A4E65B900796D8A /* AppDelegate.swift */,
+				6B07FFC82A4E65B900796D8A /* SceneDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		6B07FFF72A4E6A8700796D8A /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		6B07FFF82A4E6AAB00796D8A /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				6B07FFCF2A4E65BB00796D8A /* Assets.xcassets */,
+			);
+			path = Assets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -439,7 +463,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = J8JPD2534R;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = GitHubList/Info.plist;
+				INFOPLIST_FILE = GitHubList/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -467,7 +491,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = J8JPD2534R;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = GitHubList/Info.plist;
+				INFOPLIST_FILE = GitHubList/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
