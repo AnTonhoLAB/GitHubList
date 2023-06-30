@@ -13,9 +13,6 @@ class AppCoordinator: GGBaseCoordinator<UIViewController> {
     private let window: UIWindow
     private let coordinator: MainListCoordinator
     
-    private let viewController: MainListViewController
-    private let viewModel: MainListViewModelProtocol
-    
     let mainNavigationViewController: UINavigationController
        
     init(window: UIWindow) {
@@ -26,11 +23,7 @@ class AppCoordinator: GGBaseCoordinator<UIViewController> {
         
         window.rootViewController = mainNavigationViewController
         
-        viewModel = MainListViewModel()
-        viewController = MainListViewController(viewModel: viewModel)
-        
-        super.init(rootViewController: window.rootViewController)
-        
+        super.init(rootViewController: mainNavigationViewController)
     }
     
     override func start() {

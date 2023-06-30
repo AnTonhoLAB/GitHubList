@@ -25,10 +25,12 @@ class MainListCoordinator: GGCoordinator {
             })
             .disposed(by: viewController.disposeBag)
         
-        show(viewController)
+        root(viewController)
     }
     
-    private func openDetail() {
-        // TODO: - open detail
+    private func openDetail(with rootViewController: UIViewController) {
+        let coordinator = UserDetailCoordinator(navigationController: self.rootViewController)
+        coordinator.root(rootViewController)
+        coordinator.start()
     }
 }

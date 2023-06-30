@@ -1,5 +1,5 @@
 //
-//  MainListViewModel.swift
+//  UserDetailViewModel.swift
 //  GitHubList
 //
 //  Created by George Gomes on 30/06/23.
@@ -11,13 +11,13 @@ import RxCocoa
 import GGDevelopmentKit
 
 
-protocol MainListViewModelProtocol {
+protocol UserDetailViewModelProtocol {
     
     // MARK: - Outputs
-    var navigation: Driver<Navigation<MainListViewModel.Route>> { get }
+    var navigation: Driver<Navigation<UserDetailViewModel.Route>> { get }
 }
 
-final class MainListViewModel: MainListViewModelProtocol {
+final class UserDetailViewModel: UserDetailViewModelProtocol {
     
     // MARK: - Definitions
     typealias ListNavigation = Navigation<Route>
@@ -28,7 +28,7 @@ final class MainListViewModel: MainListViewModelProtocol {
     // Helpers
     // MARK: - Route
     enum Route: Equatable {
-        case openDetail
+        case openRepository
     }
     
 }
