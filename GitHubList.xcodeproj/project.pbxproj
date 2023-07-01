@@ -25,6 +25,7 @@
 		6BD7BD342A4FCD9200AF3FE6 /* UserDetailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7BD332A4FCD9200AF3FE6 /* UserDetailService.swift */; };
 		6BDEEDDF2A4FD354003C27FF /* InternetChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDEEDDE2A4FD354003C27FF /* InternetChecker.swift */; };
 		6BDEEDE12A4FD497003C27FF /* GitHubServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDEEDE02A4FD497003C27FF /* GitHubServiceError.swift */; };
+		6BDEEDE42A50DFE7003C27FF /* UserListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDEEDE32A50DFE7003C27FF /* UserListCell.swift */; };
 		6BE67DEC2A4FC5E100F04771 /* MainListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE67DEB2A4FC5E100F04771 /* MainListService.swift */; };
 		6BE67DF02A4FC68A00F04771 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE67DEF2A4FC68A00F04771 /* UserModel.swift */; };
 		6BE67DF22A4FCB8500F04771 /* UserListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE67DF12A4FCB8500F04771 /* UserListModel.swift */; };
@@ -78,6 +79,7 @@
 		6BD7BD332A4FCD9200AF3FE6 /* UserDetailService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailService.swift; sourceTree = "<group>"; };
 		6BDEEDDE2A4FD354003C27FF /* InternetChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetChecker.swift; sourceTree = "<group>"; };
 		6BDEEDE02A4FD497003C27FF /* GitHubServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubServiceError.swift; sourceTree = "<group>"; };
+		6BDEEDE32A50DFE7003C27FF /* UserListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListCell.swift; sourceTree = "<group>"; };
 		6BE67DEB2A4FC5E100F04771 /* MainListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListService.swift; sourceTree = "<group>"; };
 		6BE67DEF2A4FC68A00F04771 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		6BE67DF12A4FCB8500F04771 /* UserListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListModel.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 			isa = PBXGroup;
 			children = (
 				6BE67DED2A4FC63C00F04771 /* Service */,
+				6BDEEDE22A50DFAA003C27FF /* Cell */,
 				6BC5E64F2A4E7E9A0073347D /* MainListCoordinator.swift */,
 				6BC5E6512A4E7F110073347D /* MainListViewController.swift */,
 				6BC5E6532A4E7F220073347D /* MainListViewModel.swift */,
@@ -264,6 +267,14 @@
 				6BDEEDE02A4FD497003C27FF /* GitHubServiceError.swift */,
 			);
 			path = MainService;
+			sourceTree = "<group>";
+		};
+		6BDEEDE22A50DFAA003C27FF /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				6BDEEDE32A50DFE7003C27FF /* UserListCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		6BE67DED2A4FC63C00F04771 /* Service */ = {
@@ -546,6 +557,7 @@
 				6BC5E6522A4E7F110073347D /* MainListViewController.swift in Sources */,
 				6B07FFC92A4E65B900796D8A /* SceneDelegate.swift in Sources */,
 				6BDEEDDF2A4FD354003C27FF /* InternetChecker.swift in Sources */,
+				6BDEEDE42A50DFE7003C27FF /* UserListCell.swift in Sources */,
 				6BE67DF02A4FC68A00F04771 /* UserModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -15,7 +15,11 @@ class MainListViewController: UIViewController, GGAlertableViewController {
     private var viewModel: MainListViewModelProtocol
     let disposeBag = DisposeBag()
     
-    lazy var mainView = UIView()
+    lazy var listTableView: UITableView = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.register(UserListCell.self, forCellReuseIdentifier: UserListCell.identifier)
+        return $0
+    }(UITableView(frame: .zero))
     
     // MARK: - Initializers
     init(viewModel: MainListViewModelProtocol) {
@@ -38,8 +42,8 @@ class MainListViewController: UIViewController, GGAlertableViewController {
     func setupRX() {
         
         viewModel.userList.asObservable()
-            .bind { receive in
-                print(receive)
+            .bind(to: listTableView.rx.items(cellIdentifier: UserListCell.identifier, cellType: UserListCell.self)){ (row, user, cell) in
+                cell.setup(with: user)
             }
             .disposed(by: disposeBag)
                 
@@ -87,19 +91,18 @@ class MainListViewController: UIViewController, GGAlertableViewController {
 
 extension MainListViewController: ViewCoded {
     func setupViews() {
-        view.addSubview(mainView)
+        view.addSubview(listTableView)
     }
     
     func setupViewConfigs() {
-        mainView.backgroundColor = .red
     }
     
     func setupConstraints() {
         
-        mainView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        mainView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        mainView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        mainView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        mainView.translatesAutoresizingMaskIntoConstraints = false
+        listTableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        listTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        listTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        listTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        listTableView.translatesAutoresizingMaskIntoConstraints = false
     }
 }
