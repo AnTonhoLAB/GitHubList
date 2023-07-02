@@ -10,12 +10,17 @@ import GGDevelopmentKit
 
 class UserDetailCoordinator: GGCoordinator {
    
-    init(navigationController: UINavigationController) {
+    let user: UserListModel
+    
+    init(navigationController: UINavigationController, with user: UserListModel) {
+        self.user = user
         super.init(rootViewController: navigationController)
     }
 
     override func start() {
-        let viewModel = UserDetailViewModel()
+        let networlingManager = NetworkingManager()
+        let service = UserDetailService(networkingManager: networlingManager)
+        let viewModel = UserDetailViewModel(user: user, service: service)
         let viewController = UserDetailViewController(viewModel: viewModel)
         
         viewModel.navigation

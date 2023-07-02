@@ -11,6 +11,7 @@ import RxSwift
 enum GitHubServiceError: Error {
     case internalError
     case NoConnection
+    case notFound
 }
 
 extension GitHubServiceError {
@@ -20,6 +21,8 @@ extension GitHubServiceError {
             return "Internal error, try again"
         case .NoConnection:
             return "No connection, turn on the internet and try again"
+        case .notFound:
+            return "User not found, check the name entered and try again"
         }
     }
 }

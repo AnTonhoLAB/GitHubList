@@ -34,7 +34,7 @@ class MainListCoordinator: GGCoordinator {
     }
     
     private func openDetail(with user: UserListModel, rootViewController: UIViewController) {
-        let coordinator = UserDetailCoordinator(navigationController: self.rootViewController)
+        let coordinator = UserDetailCoordinator(navigationController: self.rootViewController, with: user)
         coordinator.root(rootViewController)
         coordinator.start()
     }

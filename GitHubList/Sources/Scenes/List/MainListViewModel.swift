@@ -33,8 +33,8 @@ final class MainListViewModel: MainListViewModelProtocol {
     private let userListResponse = PublishSubject<[UserListModel]>()
     
     // MARK: - Inputs
-    let viewDidLoad: PublishSubject<Bool> = .init()
-    let didSelectItem: PublishSubject<UserListModel> = .init()
+    private(set) var viewDidLoad: PublishSubject<Bool> = .init()
+    private(set) var didSelectItem: PublishSubject<UserListModel> = .init()
     
     // MARK: - Outputs
     private(set) var userList: Driver<[UserListModel]> = .never()
