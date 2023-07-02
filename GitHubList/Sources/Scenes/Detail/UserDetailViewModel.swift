@@ -50,5 +50,4 @@ final class UserDetailViewModel: UserDetailViewModelProtocol {
         return Observable.merge([routeToBack])
                .asDriver(onErrorRecover: { _ in .never() })
     }
-    
 }
