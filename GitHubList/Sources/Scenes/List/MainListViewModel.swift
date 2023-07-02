@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 import GGDevelopmentKit
 
-
 protocol MainListViewModelProtocol {
     
     // MARK: - Inputs

@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 import GGDevelopmentKit
 
-
 protocol UserDetailViewModelProtocol {
     // MARK: - Inputs
     var viewDidLoad: PublishSubject<Bool> { get }
@@ -51,7 +50,6 @@ final class UserDetailViewModel: UserDetailViewModelProtocol {
     init(user: UserListModel, service: UserDetailServiceProtocol) {
         self.user = user
         self.service = service
-        
         
         self.userImage = userImageResponse.asObservable()
         self.userDetail = userResponse.asObservable()
@@ -105,8 +103,8 @@ final class UserDetailViewModel: UserDetailViewModelProtocol {
                 fetchRepos()
             }
         
-        let fetchUserImage: (() -> Observable<UserDetailViewModel.ServiceState>) = { [user, userImageResponse, service] in
-            return service.fetchUserImage(from: user.avatarURL)
+        let fetchUserImage: ((_ fromURL: String) -> Observable<UserDetailViewModel.ServiceState>) = { [userImageResponse, service] url in
+            return service.fetchUserImage(from: url)
                     .trackActivity(activityIndicator)
                     .do(onNext: { [userImageResponse] res in
                         userImageResponse.onNext(res)
@@ -119,9 +117,9 @@ final class UserDetailViewModel: UserDetailViewModelProtocol {
                     }
         }
         
-        let loadUserImage = viewDidLoad
-            .flatMapLatest { reload in
-                fetchUserImage()
+        let loadUserImage = userResponse
+            .flatMapLatest { user in
+                fetchUserImage(user.avatarURL)
             }
         
         let loadingShown = activityIndicator

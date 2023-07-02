@@ -239,12 +239,20 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		6B0831DD2A51ECFF0095A4C6 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		6BC5E64A2A4E73950073347D /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
 				6BC5E64D2A4E78EC0073347D /* AppCoordinator.swift */,
 				6BC5E64B2A4E78BE0073347D /* List */,
 				6BC5E6572A4F5F9B0073347D /* Detail */,
+				6B0831DD2A51ECFF0095A4C6 /* Search */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
