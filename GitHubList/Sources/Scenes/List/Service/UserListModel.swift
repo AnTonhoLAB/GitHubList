@@ -43,6 +43,11 @@ struct UserListModel: Codable {
     }
 }
 
+extension UserListModel: Equatable {
+    static func ==(lhs: UserListModel, rhs: UserListModel) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
 
 enum TypeEnum: String, Codable {
     case organization = "Organization"

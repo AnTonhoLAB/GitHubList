@@ -28,6 +28,8 @@
 		6BDEEDE42A50DFE7003C27FF /* UserListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDEEDE32A50DFE7003C27FF /* UserListCell.swift */; };
 		6BDEEDE62A50ED4C003C27FF /* UserListCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDEEDE52A50ED4C003C27FF /* UserListCellViewModel.swift */; };
 		6BDEEDE92A50FCAE003C27FF /* UIImage+RX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDEEDE82A50FCAE003C27FF /* UIImage+RX.swift */; };
+		6BDEEDED2A51760B003C27FF /* ListAllViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDEEDEC2A51760B003C27FF /* ListAllViewModelTests.swift */; };
+		6BDEEDF02A5176A8003C27FF /* MainListServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDEEDEF2A5176A8003C27FF /* MainListServiceMock.swift */; };
 		6BE67DEC2A4FC5E100F04771 /* MainListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE67DEB2A4FC5E100F04771 /* MainListService.swift */; };
 		6BE67DF02A4FC68A00F04771 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE67DEF2A4FC68A00F04771 /* UserModel.swift */; };
 		6BE67DF22A4FCB8500F04771 /* UserListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE67DF12A4FCB8500F04771 /* UserListModel.swift */; };
@@ -84,6 +86,8 @@
 		6BDEEDE32A50DFE7003C27FF /* UserListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListCell.swift; sourceTree = "<group>"; };
 		6BDEEDE52A50ED4C003C27FF /* UserListCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListCellViewModel.swift; sourceTree = "<group>"; };
 		6BDEEDE82A50FCAE003C27FF /* UIImage+RX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+RX.swift"; sourceTree = "<group>"; };
+		6BDEEDEC2A51760B003C27FF /* ListAllViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListAllViewModelTests.swift; sourceTree = "<group>"; };
+		6BDEEDEF2A5176A8003C27FF /* MainListServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListServiceMock.swift; sourceTree = "<group>"; };
 		6BE67DEB2A4FC5E100F04771 /* MainListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListService.swift; sourceTree = "<group>"; };
 		6BE67DEF2A4FC68A00F04771 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		6BE67DF12A4FCB8500F04771 /* UserListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListModel.swift; sourceTree = "<group>"; };
@@ -180,6 +184,7 @@
 		6B07FFDC2A4E65BC00796D8A /* GitHubListTests */ = {
 			isa = PBXGroup;
 			children = (
+				6BDEEDEE2A517690003C27FF /* MainListTests */,
 				6B07FFDD2A4E65BC00796D8A /* GitHubListTests.swift */,
 			);
 			path = GitHubListTests;
@@ -289,6 +294,15 @@
 				6BDEEDE82A50FCAE003C27FF /* UIImage+RX.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		6BDEEDEE2A517690003C27FF /* MainListTests */ = {
+			isa = PBXGroup;
+			children = (
+				6BDEEDEF2A5176A8003C27FF /* MainListServiceMock.swift */,
+				6BDEEDEC2A51760B003C27FF /* ListAllViewModelTests.swift */,
+			);
+			path = MainListTests;
 			sourceTree = "<group>";
 		};
 		6BE67DED2A4FC63C00F04771 /* Service */ = {
@@ -582,7 +596,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BDEEDED2A51760B003C27FF /* ListAllViewModelTests.swift in Sources */,
 				6B07FFDE2A4E65BC00796D8A /* GitHubListTests.swift in Sources */,
+				6BDEEDF02A5176A8003C27FF /* MainListServiceMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -72,6 +72,13 @@ class MainListViewController: UIViewController, GGAlertableViewController {
                         handle(error)
                     }
                     .disposed(by: disposeBag)
+        
+        listTableView
+            .rx
+            .modelSelected(UserListModel.self)
+            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
+            .bind(to: viewModel.didSelectItem)
+            .disposed(by: disposeBag)
     }
     
     private func handle(error: Error) {

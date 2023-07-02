@@ -11,11 +11,13 @@ import RxSwift
 protocol UserListCellViewModelProtocol {
     var nickName: String { get }
     
-    // Imputs
+    // MARK: - Inputs
     var startLoad: PublishSubject<Bool> { get }
     
-    // Outputs
+    // MARK: - Outputs
     var userImage: Observable<Data> { get }
+    var followersCount: Observable<Int> { get }
+    var followingCount: Observable<Int> { get }
 }
 
 class UserListCellViewModel: UserListCellViewModelProtocol {
@@ -23,24 +25,43 @@ class UserListCellViewModel: UserListCellViewModelProtocol {
     private let userModel: UserListModel
     
     private let userImageResponse = PublishSubject<Data>()
+    private let followersResponse = PublishSubject<Int>()
+    private let followingResponse = PublishSubject<Int>()
     
-    // Imputs
+    // MARK: - Inputs
     let startLoad: PublishSubject<Bool> = .init()
     
-    // Outputs
+    // MARK: - Outputs
     let nickName: String
     private(set) var userImage: Observable<Data>
+    private(set) var followersCount: Observable<Int>
+    private(set) var followingCount: Observable<Int>
     
+    // MARK: - Initializers 
     init(userModel: UserListModel, service: MainListServiceProtocol) {
         self.userModel = userModel
         self.nickName = userModel.login
         
         self.userImage = userImageResponse.asObservable()
+        self.followersCount = followersResponse.asObservable()
+        self.followingCount = followersResponse.asObservable()
 
         let _ = service.fetchUserImage(from: userModel.avatarURL)
             .asObservable()
-            .subscribe { data in
-                self.userImageResponse.onNext(data)
+            .subscribe { [userImageResponse] data in
+                userImageResponse.onNext(data)
+            }
+        
+        let _ = service.fetchUserFollowes(from: userModel.login)
+            .asObservable()
+            .subscribe { [followersResponse] followers in
+                followersResponse.onNext(followers.count)
+            }
+        
+        let _ = service.fetchUserFollowing(from: userModel.login)
+            .asObservable()
+            .subscribe { [followersResponse] followers in
+                followersResponse.onNext(followers.count)
             }
     }
 }

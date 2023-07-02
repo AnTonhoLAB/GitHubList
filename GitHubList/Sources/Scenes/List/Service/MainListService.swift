@@ -11,6 +11,8 @@ import RxSwift
 protocol MainListServiceProtocol {
     func fetchInitialList() -> Single<[UserListModel]>
     func fetchUserImage(from imageURL: String) -> Single<Data>
+    func fetchUserFollowes(from user: String) -> Single<[UserListModel]>
+    func fetchUserFollowing(from user: String) -> Single<[UserListModel]>
 }
 
 final class MainListService: MainListServiceProtocol, RequesterProtocol {
@@ -50,7 +52,35 @@ final class MainListService: MainListServiceProtocol, RequesterProtocol {
                 self?.makeRequestForImage(url: imageURL, single: single)
                 return Disposables.create()
             }
-        
     }
     
+    func fetchUserFollowes(from user: String) -> Single<[UserListModel]> {
+        // Check internet
+        guard networkingManager.isConnected()  else {
+            // If there is no connection return error
+            return GitHUBServiceErrorRX.NoConnection.noConectionRXSingle
+        }
+        
+        // If internet is ok
+        return Single<[UserListModel]>
+            .create { [weak self, baseURL] single in
+                self?.makeRequest(url: baseURL + "/\(user)/followers", single: single)
+                return Disposables.create()
+            }
+    }
+    
+    func fetchUserFollowing(from user: String) -> Single<[UserListModel]> {
+        // Check internet
+        guard networkingManager.isConnected()  else {
+            // If there is no connection return error
+            return GitHUBServiceErrorRX.NoConnection.noConectionRXSingle
+        }
+        
+        // If internet is ok
+        return Single<[UserListModel]>
+            .create { [weak self, baseURL] single in
+                self?.makeRequest(url: baseURL + "/\(user)/following", single: single)
+                return Disposables.create()
+            }
+    }
 }

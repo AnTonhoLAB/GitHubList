@@ -22,15 +22,18 @@ class MainListCoordinator: GGCoordinator {
         
         viewModel.navigation
             .filter { $0.type == .openDetail}
-            .drive(onNext:  { [openDetail] _ in
-                openDetail(viewController)
+            .map { $0.info as? UserListModel }
+            .unwrap()
+            .drive(onNext:  { [openDetail] userToOpen in
+                
+                openDetail(userToOpen, viewController)
             })
             .disposed(by: viewController.disposeBag)
         
         root(viewController)
     }
     
-    private func openDetail(with rootViewController: UIViewController) {
+    private func openDetail(with user: UserListModel, rootViewController: UIViewController) {
         let coordinator = UserDetailCoordinator(navigationController: self.rootViewController)
         coordinator.root(rootViewController)
         coordinator.start()

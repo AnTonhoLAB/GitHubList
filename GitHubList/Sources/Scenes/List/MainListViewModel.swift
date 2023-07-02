@@ -29,7 +29,7 @@ final class MainListViewModel: MainListViewModelProtocol {
     typealias ListNavigation = Navigation<Route>
     typealias ServiceState = Navigation<State>
     
-    private let service: MainListService
+    private let service: MainListServiceProtocol
     private let userListResponse = PublishSubject<[UserListModel]>()
     
     // MARK: - Inputs
@@ -41,9 +41,10 @@ final class MainListViewModel: MainListViewModelProtocol {
     private(set) var navigation: Driver<ListNavigation> = .never()
     private(set) var serviceState: Driver<ServiceState> = .never()
     
-    init(service: MainListService) {
+    init(service: MainListServiceProtocol) {
         self.service = service
         self.serviceState = createServiceState()
+        self.navigation = createNavigation()
         
         self.userList = userListResponse.asDriverOnErrorJustComplete()
     }
@@ -86,6 +87,18 @@ final class MainListViewModel: MainListViewModelProtocol {
             .merge(loadList, loadingShown, errorToShow)
             .asDriverOnErrorJustComplete()
         }
+}
+
+extension MainListViewModel {
+    // MARK: -Internal methods
+    private func createNavigation() -> Driver<ListNavigation> {
+
+        let routeToNext = didSelectItem
+            .map { ListNavigation(type: .openDetail, info: $0) }
+        
+        return Observable.merge([routeToNext])
+            .asDriver(onErrorRecover: { _ in .never() })
+    }
 }
 
 // MARK: - Helpers
