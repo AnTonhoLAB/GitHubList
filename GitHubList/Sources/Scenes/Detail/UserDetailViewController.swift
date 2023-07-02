@@ -32,6 +32,10 @@ class UserDetailViewController: UIViewController, GGAlertableViewController {
         
         setupLayout()
         setupRX()
+        
+        viewModel
+            .viewDidLoad
+            .onNext(true)
     }
     
     func setupRX() {
@@ -39,6 +43,50 @@ class UserDetailViewController: UIViewController, GGAlertableViewController {
             .tap
             .bind(to: viewModel.didTapBack)
             .disposed(by: disposeBag)
+        
+        viewModel.serviceState
+                    .filter { $0.type == .loading }
+                    .drive { state in
+                        self.view.showLoading()
+                    }
+                    .disposed(by: disposeBag)
+        
+        viewModel.serviceState
+                    .filter { $0.type == .success }
+                    .drive { object in
+                        self.view.removeLoading()
+                    }
+                    .disposed(by: disposeBag)
+        
+        viewModel.serviceState
+                    .filter { $0.type == .error }
+                    .map { $0.info as? Error }
+                    .unwrap()
+                    .drive { [handle] error in
+                        self.view.removeLoading()
+                        handle(error)
+                    }
+                    .disposed(by: disposeBag)
+        
+        viewModel.repos.asObservable().bind { repos in
+            print(repos)
+        }
+    }
+    
+    private func handle(error: Error) {
+        let reload: (GGAlertAction) -> Void = { [weak self] _ in
+                self?.viewModel
+                .viewDidLoad
+                .onNext(true)
+        }
+
+        let tryAgain = "Try again"
+
+        if let listError = error as? GitHubServiceError {
+            displayWarningInView(title: "oh no, an error occurred", message: listError.localizedDescription, buttonTitle: tryAgain, action: reload)
+        } else {
+            displayWarningInView(title: "Error", message: "An unexpected error occurred", buttonTitle: tryAgain, action: reload)
+        }
     }
 }
 

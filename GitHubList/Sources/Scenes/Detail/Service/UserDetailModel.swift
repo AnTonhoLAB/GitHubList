@@ -1,8 +1,8 @@
 //
-//  UserModel.swift
+//  UserDetailModel.swift
 //  GitHubList
 //
-//  Created by George Gomes on 30/06/23.
+//  Created by George Gomes on 02/07/23.
 //
 
 import Foundation
@@ -17,18 +17,18 @@ struct UserDetail: Codable {
     let url, htmlURL, followersURL: String
     let followingURL, gistsURL, starredURL: String
     let subscriptionsURL, organizationsURL, reposURL: String
-    let eventsURL: String
-    let receivedEventsURL: String
+    let eventsURL: String?
+    let receivedEventsURL: String?
     let type: String
     let siteAdmin: Bool
     let name: String
-    let company: JSONNull?
-    let blog, location: String
-    let email, hireable: JSONNull?
-    let bio: String
-    let twitterUsername: JSONNull?
+    let company: String?
+    let blog, location: String?
+    let email, hireable: String?
+    let bio: String?
+    let twitterUsername: String?
     let publicRepos, publicGists, followers, following: Int
-    let createdAt, updatedAt: Date
+    let createdAt, updatedAt: String?
 
     enum CodingKeys: String, CodingKey {
         case login, id
@@ -55,32 +55,5 @@ struct UserDetail: Codable {
         case followers, following
         case createdAt = "created_at"
         case updatedAt = "updated_at"
-    }
-}
-
-// MARK: - Encode/decode helpers
-
-class JSONNull: Codable, Hashable {
-
-    public static func == (lhs: JSONNull, rhs: JSONNull) -> Bool {
-        return true
-    }
-
-    public var hashValue: Int {
-        return 0
-    }
-
-    public init() {}
-
-    public required init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        if !container.decodeNil() {
-            throw DecodingError.typeMismatch(JSONNull.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for JSONNull"))
-        }
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        try container.encodeNil()
     }
 }
