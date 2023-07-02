@@ -15,6 +15,7 @@ class MainListViewController: UIViewController, GGAlertableViewController {
     private var viewModel: MainListViewModelProtocol
     let disposeBag = DisposeBag()
     
+    private lazy var searchButton: UIBarButtonItem = UIBarButtonItem(title: "Search", style: .plain, target: self, action: nil)
     lazy var listTableView: UITableView = {
         $0.register(UserListCell.self, forCellReuseIdentifier: UserListCell.identifier)
         $0.rowHeight = 150
@@ -41,6 +42,11 @@ class MainListViewController: UIViewController, GGAlertableViewController {
     }
     
     func setupRX() {
+        
+        searchButton.rx
+            .tap
+            .bind(to: viewModel.didTapSearch)
+            .disposed(by: disposeBag)
         
         viewModel.userList.asObservable()
             .bind(to: listTableView.rx.items(cellIdentifier: UserListCell.identifier, cellType: UserListCell.self)){ (row, user, cell) in
@@ -101,10 +107,10 @@ class MainListViewController: UIViewController, GGAlertableViewController {
 extension MainListViewController: ViewCoded {
     func setupViews() {
         view.addSubview(listTableView)
+        self.navigationItem.rightBarButtonItem = searchButton
     }
     
-    func setupViewConfigs() {
-    }
+    func setupViewConfigs() { }
     
     func setupConstraints() {
         

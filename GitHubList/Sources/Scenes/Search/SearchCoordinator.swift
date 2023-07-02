@@ -44,7 +44,6 @@ class SearchCoordinator: GGCoordinator {
     private func openDetail(with user: SimpleUserProtocol, rootViewController: UIViewController) {
         
         let coordinator = UserDetailCoordinator(navigationController: self.rootViewController, with: user)
-        coordinator.root(rootViewController)
         coordinator.start()
     }
 }

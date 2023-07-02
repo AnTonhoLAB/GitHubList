@@ -15,6 +15,7 @@ protocol MainListViewModelProtocol {
     // MARK: - Inputs
     var viewDidLoad: PublishSubject<Bool> { get }
     var didSelectItem: PublishSubject<UserListModel> { get }
+    var didTapSearch: PublishSubject<Void> { get }
     
     // MARK: - Outputs
     var navigation: Driver<Navigation<MainListViewModel.Route>> { get }
@@ -34,6 +35,7 @@ final class MainListViewModel: MainListViewModelProtocol {
     // MARK: - Inputs
     private(set) var viewDidLoad: PublishSubject<Bool> = .init()
     private(set) var didSelectItem: PublishSubject<UserListModel> = .init()
+    private(set) var didTapSearch: PublishSubject<Void> = .init()
     
     // MARK: - Outputs
     private(set) var userList: Driver<[UserListModel]> = .never()
@@ -95,7 +97,10 @@ extension MainListViewModel {
         let routeToNext = didSelectItem
             .map { ListNavigation(type: .openDetail, info: $0) }
         
-        return Observable.merge([routeToNext])
+        let routeToSearch = didTapSearch
+            .map { ListNavigation(type: .openSearch, info: $0) }
+        
+        return Observable.merge([routeToNext, routeToSearch])
             .asDriver(onErrorRecover: { _ in .never() })
     }
 }
@@ -106,6 +111,7 @@ extension MainListViewModel {
     // MARK: - Route
     enum Route: Equatable {
         case openDetail
+        case openSearch
     }
     
     // MARK: - State

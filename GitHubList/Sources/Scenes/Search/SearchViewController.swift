@@ -18,6 +18,7 @@ class SearchViewController: UIViewController {
     
     // MARK: - Views
     private lazy var backButton: UIBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: nil)
+    private let searchBar: UISearchBar = UISearchBar()
     
     // MARK: - Initializers
     init(viewModel: SearchViewModelProtocol) {
@@ -40,11 +41,23 @@ class SearchViewController: UIViewController {
             .bind(to: viewModel.didTapBack)
             .disposed(by: disposeBag)
         
+        searchBar.rx
+            .text
+            .orEmpty
+            .bind(to: viewModel.nameToSearch)
+            .disposed(by: disposeBag)
+        
+        searchBar.rx.searchButtonClicked
+            .bind(to: viewModel.didTapToSearch)
+            .disposed(by: disposeBag)
+        
     }
 }
 
 extension SearchViewController: ViewCoded {
     func setupViews() {
+        
+        view.addSubview(searchBar)
         
         self.navigationItem.hidesBackButton = true
         self.navigationItem.leftBarButtonItem = backButton
@@ -56,6 +69,11 @@ extension SearchViewController: ViewCoded {
     }
     
     func setupConstraints() {
+        
+        searchBar.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor).isActive = true
+        searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
         
     }
 }
