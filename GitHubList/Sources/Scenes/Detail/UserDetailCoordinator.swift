@@ -23,18 +23,7 @@ class UserDetailCoordinator: GGCoordinator {
         let viewModel = UserDetailViewModel(user: user, service: service)
         let viewController = UserDetailViewController(viewModel: viewModel)
         
-        viewModel.navigation
-            .filter { $0.type == .back}
-            .drive(onNext:  { [backToList] _ in
-                backToList()
-            })
-            .disposed(by: viewController.disposeBag)
-        
-        show(viewController)
-    }
-    
-    private func backToList() {
-        pop()
+        present(viewController)
     }
     
     private func openRepository() {

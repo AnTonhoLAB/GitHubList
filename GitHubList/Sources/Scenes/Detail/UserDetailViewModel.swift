@@ -16,7 +16,6 @@ protocol UserDetailViewModelProtocol {
     var didTapBack: PublishSubject<Void> { get }
     
     // MARK: - Outputs
-    var navigation: Driver<Navigation<UserDetailViewModel.Route>> { get }
     var serviceState: Driver<Navigation<UserDetailViewModel.State>> { get }
     var userImage: Observable<Data> { get }
     var userDetail: Observable<UserDetail> { get }
@@ -26,7 +25,6 @@ protocol UserDetailViewModelProtocol {
 final class UserDetailViewModel: UserDetailViewModelProtocol {
     
     // MARK: - Definitions
-    typealias DetailNavigation = Navigation<Route>
     typealias ServiceState = Navigation<State>
     
     private let service: UserDetailServiceProtocol
@@ -44,7 +42,6 @@ final class UserDetailViewModel: UserDetailViewModelProtocol {
     private(set) var userImage: Observable<Data>
     private(set) var userDetail: Observable<UserDetail> = .never()
     private(set) var repos: Observable<[RepoListElement]> = .never()
-    private(set) var navigation: Driver<DetailNavigation> = .never()
     private(set) var serviceState: Driver<ServiceState> = .never()
     
     init(user: SimpleUserProtocol, service: UserDetailServiceProtocol) {
@@ -56,7 +53,6 @@ final class UserDetailViewModel: UserDetailViewModelProtocol {
         self.repos = reposResponse.asObservable()
         
         self.serviceState = createServiceState()
-        self.navigation = createNavigation()
     }
     
     // MARK: - Internal methods
@@ -134,15 +130,6 @@ final class UserDetailViewModel: UserDetailViewModelProtocol {
         return Observable
             .merge(loadUser, loadUserImage, loadRepos, loadingShown, errorToShow)
             .asDriverOnErrorJustComplete()
-    }
-    
-    private func createNavigation() -> Driver<DetailNavigation> {
-
-        let routeToBack = didTapBack
-            .map { DetailNavigation(type: .back, info: $0) }
-           
-        return Observable.merge([routeToBack])
-               .asDriver(onErrorRecover: { _ in .never() })
     }
 }
 
