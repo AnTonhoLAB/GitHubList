@@ -8,11 +8,12 @@
 import Foundation
 import RxSwift
 
-protocol MainListDetailServiceProtocol {
+protocol MainListServiceProtocol {
     func fetchInitialList() -> Single<[UserListModel]>
+    func fetchUserImage(from imageURL: String) -> Single<Data>
 }
 
-final class MainListDetailService: MainListDetailServiceProtocol, RequesterProtocol {
+final class MainListService: MainListServiceProtocol, RequesterProtocol {
 
     private let baseURL = "https://api.github.com/users"
     private let networkingManager: NetworkingManagerProtocol
@@ -25,11 +26,7 @@ final class MainListDetailService: MainListDetailServiceProtocol, RequesterProto
         // Check internet
         guard networkingManager.isConnected()  else {
             // If there is no connection return error
-            return Single<[UserListModel]>
-                        .create { single in
-                            single(.failure(GitHubServiceError.NoConnection))
-                            return Disposables.create()
-                        }
+            return GitHUBServiceErrorRX.NoConnection.noConectionRXSingle
         }
         
         // If internet is ok
@@ -40,5 +37,20 @@ final class MainListDetailService: MainListDetailServiceProtocol, RequesterProto
             }
     }
     
+    func fetchUserImage(from imageURL: String) -> Single<Data> {
+        // Check internet
+        guard networkingManager.isConnected()  else {
+            // If there is no connection return error
+            return GitHUBServiceErrorRX.NoConnection.noConectionRXSingle
+        }
+        
+        // If internet is ok
+        return Single<Data>
+            .create { [weak self] single in
+                self?.makeRequestForImage(url: imageURL, single: single)
+                return Disposables.create()
+            }
+        
+    }
     
 }

@@ -17,46 +17,60 @@ class UserListCell: UITableViewCell {
     private let font = UIFont(name: "GillSans-Bold", size: 17)
     private var disposeBag = DisposeBag()
     
-    // MARK: - Public properties
-    private(set) var nameLabel: UILabel = UILabel(frame: .zero)
-        
+    private(set) var nameLabel: UILabel = UILabel()
+    private(set) lazy var userImage = UIImageView()
+    
     // MARK: - Public methods
-    func setup(with user: UserListModel) {
-        self.nameLabel.text = user.login
+    func setup(with viewModel: UserListCellViewModelProtocol) {
+        self.nameLabel.text = viewModel.nickName
         
         setupLayout()
+        setupRX(with: viewModel)
     }
     
-    // MARK: - Private methods
+    func setupRX(with viewModel: UserListCellViewModelProtocol) {
+        viewModel.userImage
+            .bind(to: userImage.rx.imageData)
+            .disposed(by: disposeBag)
+        
+        viewModel.startLoad.onNext(true)
+    }
     
-    
-//    override func prepareForReuse() {
-//        super.prepareForReuse()
-//        self.backgroundColor = .clear
-//        self.imageBG.tintColor = .white
-//        self.pokemonImage.image = nil
-//        self.nameLabel.text = ""
-//        self.numberLabel.text = ""
-//        disposeBag = DisposeBag()
-//    }
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        setupViewConfigs()
+        self.userImage.image = nil
+        self.nameLabel.text = nil
+        
+        disposeBag = DisposeBag()
+    }
 }
 
 extension UserListCell: ViewCoded {
     
     internal func setupViews() {
+        
+        self.contentView.addSubview(userImage)
         self.contentView.addSubview(nameLabel)
+    
     }
     
     internal func setupViewConfigs() {
-        
     }
     
     internal func setupConstraints() {
         
-        nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
-        nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
-        nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 10).isActive = true
-        nameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
+        userImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
+        userImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
+        userImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
+        userImage.widthAnchor.constraint(equalTo: userImage.heightAnchor).isActive = true
+        userImage.translatesAutoresizingMaskIntoConstraints = false
+        
+        nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        nameLabel.leadingAnchor.constraint(equalTo: userImage.trailingAnchor, constant: 10).isActive = true
+        nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        nameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
     }
 }

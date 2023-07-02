@@ -16,7 +16,7 @@ class MainListCoordinator: GGCoordinator {
 
     override func start() {
         let networkManager = NetworkingManager()
-        let service = MainListDetailService(networkingManager: networkManager)
+        let service = MainListService(networkingManager: networkManager)
         let viewModel = MainListViewModel(service: service)
         let viewController = MainListViewController(viewModel: viewModel)
         

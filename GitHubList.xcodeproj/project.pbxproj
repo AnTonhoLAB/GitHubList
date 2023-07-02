@@ -26,6 +26,8 @@
 		6BDEEDDF2A4FD354003C27FF /* InternetChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDEEDDE2A4FD354003C27FF /* InternetChecker.swift */; };
 		6BDEEDE12A4FD497003C27FF /* GitHubServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDEEDE02A4FD497003C27FF /* GitHubServiceError.swift */; };
 		6BDEEDE42A50DFE7003C27FF /* UserListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDEEDE32A50DFE7003C27FF /* UserListCell.swift */; };
+		6BDEEDE62A50ED4C003C27FF /* UserListCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDEEDE52A50ED4C003C27FF /* UserListCellViewModel.swift */; };
+		6BDEEDE92A50FCAE003C27FF /* UIImage+RX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDEEDE82A50FCAE003C27FF /* UIImage+RX.swift */; };
 		6BE67DEC2A4FC5E100F04771 /* MainListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE67DEB2A4FC5E100F04771 /* MainListService.swift */; };
 		6BE67DF02A4FC68A00F04771 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE67DEF2A4FC68A00F04771 /* UserModel.swift */; };
 		6BE67DF22A4FCB8500F04771 /* UserListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE67DF12A4FCB8500F04771 /* UserListModel.swift */; };
@@ -80,6 +82,8 @@
 		6BDEEDDE2A4FD354003C27FF /* InternetChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetChecker.swift; sourceTree = "<group>"; };
 		6BDEEDE02A4FD497003C27FF /* GitHubServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubServiceError.swift; sourceTree = "<group>"; };
 		6BDEEDE32A50DFE7003C27FF /* UserListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListCell.swift; sourceTree = "<group>"; };
+		6BDEEDE52A50ED4C003C27FF /* UserListCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListCellViewModel.swift; sourceTree = "<group>"; };
+		6BDEEDE82A50FCAE003C27FF /* UIImage+RX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+RX.swift"; sourceTree = "<group>"; };
 		6BE67DEB2A4FC5E100F04771 /* MainListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListService.swift; sourceTree = "<group>"; };
 		6BE67DEF2A4FC68A00F04771 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		6BE67DF12A4FCB8500F04771 /* UserListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListModel.swift; sourceTree = "<group>"; };
@@ -165,6 +169,7 @@
 		6B07FFC52A4E65B900796D8A /* GitHubList */ = {
 			isa = PBXGroup;
 			children = (
+				6BDEEDE72A50FC93003C27FF /* Extensions */,
 				6BDEEDDD2A4FD31B003C27FF /* MainService */,
 				6B07FFF62A4E684A00796D8A /* App */,
 				6B07FFF72A4E6A8700796D8A /* Sources */,
@@ -273,8 +278,17 @@
 			isa = PBXGroup;
 			children = (
 				6BDEEDE32A50DFE7003C27FF /* UserListCell.swift */,
+				6BDEEDE52A50ED4C003C27FF /* UserListCellViewModel.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		6BDEEDE72A50FC93003C27FF /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				6BDEEDE82A50FCAE003C27FF /* UIImage+RX.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		6BE67DED2A4FC63C00F04771 /* Service */ = {
@@ -547,8 +561,10 @@
 				6BD7BD342A4FCD9200AF3FE6 /* UserDetailService.swift in Sources */,
 				6BC5E6592A4F60310073347D /* UserDetailCoordinator.swift in Sources */,
 				6BC5E65B2A4F603F0073347D /* UserDetailViewController.swift in Sources */,
+				6BDEEDE92A50FCAE003C27FF /* UIImage+RX.swift in Sources */,
 				6BC5E65D2A4F60500073347D /* UserDetailViewModel.swift in Sources */,
 				6BC5E6542A4E7F220073347D /* MainListViewModel.swift in Sources */,
+				6BDEEDE62A50ED4C003C27FF /* UserListCellViewModel.swift in Sources */,
 				6BC5E6502A4E7E9A0073347D /* MainListCoordinator.swift in Sources */,
 				6BE67DF22A4FCB8500F04771 /* UserListModel.swift in Sources */,
 				6B1699482A4FD0C400623A43 /* RequesterProtocol.swift in Sources */,

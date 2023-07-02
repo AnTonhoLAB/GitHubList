@@ -16,8 +16,9 @@ class MainListViewController: UIViewController, GGAlertableViewController {
     let disposeBag = DisposeBag()
     
     lazy var listTableView: UITableView = {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.register(UserListCell.self, forCellReuseIdentifier: UserListCell.identifier)
+        $0.rowHeight = 150
+        $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UITableView(frame: .zero))
     
@@ -43,7 +44,8 @@ class MainListViewController: UIViewController, GGAlertableViewController {
         
         viewModel.userList.asObservable()
             .bind(to: listTableView.rx.items(cellIdentifier: UserListCell.identifier, cellType: UserListCell.self)){ (row, user, cell) in
-                cell.setup(with: user)
+                let viewModel = UserListCellViewModel(userModel: user, service: MainListService(networkingManager: NetworkingManager()))
+                cell.setup(with: viewModel)
             }
             .disposed(by: disposeBag)
                 

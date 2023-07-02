@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxSwift
 
 enum GitHubServiceError: Error {
     case internalError
@@ -20,5 +21,19 @@ extension GitHubServiceError {
         case .NoConnection:
             return "No connection, turn on the internet and try again"
         }
+    }
+}
+enum GitHUBServiceErrorRX<T>: Error {
+    case NoConnection
+}
+
+
+extension GitHUBServiceErrorRX {
+    var noConectionRXSingle: Single<T> {
+        return Single<T>
+            .create { single in
+                single(.failure(GitHubServiceError.NoConnection))
+                return Disposables.create()
+            }
     }
 }

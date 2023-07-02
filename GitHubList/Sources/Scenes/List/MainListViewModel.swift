@@ -29,7 +29,7 @@ final class MainListViewModel: MainListViewModelProtocol {
     typealias ListNavigation = Navigation<Route>
     typealias ServiceState = Navigation<State>
     
-    private let service: MainListDetailService
+    private let service: MainListService
     private let userListResponse = PublishSubject<[UserListModel]>()
     
     // MARK: - Inputs
@@ -41,7 +41,7 @@ final class MainListViewModel: MainListViewModelProtocol {
     private(set) var navigation: Driver<ListNavigation> = .never()
     private(set) var serviceState: Driver<ServiceState> = .never()
     
-    init(service: MainListDetailService) {
+    init(service: MainListService) {
         self.service = service
         self.serviceState = createServiceState()
         
