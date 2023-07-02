@@ -19,8 +19,9 @@ protocol UserDetailViewModelProtocol {
     // MARK: - Outputs
     var navigation: Driver<Navigation<UserDetailViewModel.Route>> { get }
     var serviceState: Driver<Navigation<UserDetailViewModel.State>> { get }
-    var userDetail: Driver<UserDetail> { get }
-    var repos: Driver<[RepoListElement]> { get }
+    var userImage: Observable<Data> { get }
+    var userDetail: Observable<UserDetail> { get }
+    var repos: Observable<[RepoListElement]> { get }
 }
 
 final class UserDetailViewModel: UserDetailViewModelProtocol {
@@ -32,6 +33,7 @@ final class UserDetailViewModel: UserDetailViewModelProtocol {
     private let service: UserDetailServiceProtocol
     private let userResponse = PublishSubject<UserDetail>()
     private let reposResponse = PublishSubject<[RepoListElement]>()
+    private let userImageResponse = PublishSubject<Data>()
     
     private let user: UserListModel
     
@@ -40,8 +42,9 @@ final class UserDetailViewModel: UserDetailViewModelProtocol {
     private(set) var didTapBack: PublishSubject<Void> = .init()
     
     // MARK: - Outputs
-    private(set) var userDetail: Driver<UserDetail> = .never()
-    private(set) var repos: Driver<[RepoListElement]> = .never()
+    private(set) var userImage: Observable<Data>
+    private(set) var userDetail: Observable<UserDetail> = .never()
+    private(set) var repos: Observable<[RepoListElement]> = .never()
     private(set) var navigation: Driver<DetailNavigation> = .never()
     private(set) var serviceState: Driver<ServiceState> = .never()
     
@@ -49,12 +52,13 @@ final class UserDetailViewModel: UserDetailViewModelProtocol {
         self.user = user
         self.service = service
         
+        
+        self.userImage = userImageResponse.asObservable()
+        self.userDetail = userResponse.asObservable()
+        self.repos = reposResponse.asObservable()
+        
         self.serviceState = createServiceState()
         self.navigation = createNavigation()
-        
-        
-        self.userDetail = userResponse.asDriverOnErrorJustComplete()
-        self.repos = reposResponse.asDriverOnErrorJustComplete()
     }
     
     // MARK: - Internal methods
@@ -95,11 +99,31 @@ final class UserDetailViewModel: UserDetailViewModelProtocol {
                             return .just(ServiceState(type: .error, info: err))
                         }
         }
-        
+
         let loadRepos = viewDidLoad
             .flatMapLatest { reload in
                 fetchRepos()
             }
+        
+        let fetchUserImage: (() -> Observable<UserDetailViewModel.ServiceState>) = { [user, userImageResponse, service] in
+            return service.fetchUserImage(from: user.avatarURL)
+                    .trackActivity(activityIndicator)
+                    .do(onNext: { [userImageResponse] res in
+                        userImageResponse.onNext(res)
+                    })
+                    .map {
+                        ServiceState(type: .success, info: $0)
+                    }
+                    .catch { err in
+                        return .just(ServiceState(type: .error, info: err))
+                    }
+        }
+        
+        let loadUserImage = viewDidLoad
+            .flatMapLatest { reload in
+                fetchUserImage()
+            }
+        
 
         let loadingShown = activityIndicator
             .filter { $0 }
@@ -111,9 +135,9 @@ final class UserDetailViewModel: UserDetailViewModelProtocol {
             .asObservable()
         
         return Observable
-            .merge(loadUser, loadRepos, loadingShown, errorToShow)
+            .merge(loadUser, loadUserImage, loadRepos, loadingShown, errorToShow)
             .asDriverOnErrorJustComplete()
-        }
+    }
     
     private func createNavigation() -> Driver<DetailNavigation> {
 

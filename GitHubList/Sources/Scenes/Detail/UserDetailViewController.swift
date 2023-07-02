@@ -15,8 +15,16 @@ class UserDetailViewController: UIViewController, GGAlertableViewController {
     private var viewModel: UserDetailViewModelProtocol
     let disposeBag = DisposeBag()
     
-    lazy var mainView = UIView()
-    lazy var backButton: UIBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: nil)
+    // MARK: - Views
+    private(set) lazy var backButton: UIBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: nil)
+    private(set) var userImage = UIImageView()
+    private(set) var nickNameLabel: UILabel = UILabel()
+    private(set) var nameLabel: UILabel = UILabel()
+    private(set) var followersLabel: UILabel = UILabel()
+    private(set) var followingLabel: UILabel = UILabel()
+    private(set) var emailLabel: UILabel = UILabel()
+    private(set) var blogLabel: UILabel = UILabel()
+    private(set) var locationLabel: UILabel = UILabel()
     
     // MARK: - Initializers
     init(viewModel: UserDetailViewModelProtocol) {
@@ -68,9 +76,45 @@ class UserDetailViewController: UIViewController, GGAlertableViewController {
                     }
                     .disposed(by: disposeBag)
         
-        viewModel.repos.asObservable().bind { repos in
-            print(repos)
-        }
+        viewModel.userImage
+            .asObservable()
+            .bind(to: userImage.rx.imageData)
+            .disposed(by: disposeBag)
+        
+        viewModel.userDetail
+            .map { $0.login }
+            .bind(to: nickNameLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.userDetail
+            .map { $0.name }
+            .bind(to: nameLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.userDetail
+            .map { $0.email }
+            .bind(to: emailLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.userDetail
+            .map { $0.location }
+            .bind(to: locationLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.userDetail
+            .map { $0.blog }
+            .bind(to: blogLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.userDetail
+            .map { "\($0.followers) \n seguidores"}
+            .bind(to: followersLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.userDetail
+            .map { "\($0.following) \n seguindo"}
+            .bind(to: followingLabel.rx.text)
+            .disposed(by: disposeBag)
     }
     
     private func handle(error: Error) {
@@ -92,21 +136,32 @@ class UserDetailViewController: UIViewController, GGAlertableViewController {
 
 extension UserDetailViewController: ViewCoded {
     func setupViews() {
-        view.addSubview(mainView)
+//        view.addSubview(mainView)
+        
+        view.addSubview(userImage)
+        view.addSubview(nickNameLabel)
+        view.addSubview(nameLabel)
+        view.addSubview(followersLabel)
+        view.addSubview(followingLabel)
+        view.addSubview(emailLabel)
+        view.addSubview(blogLabel)
+        view.addSubview(locationLabel)
+        
         
         self.navigationItem.hidesBackButton = true
         self.navigationItem.leftBarButtonItem = backButton
     }
     
     func setupViewConfigs() {
-        mainView.backgroundColor = .blue
+        self.view.backgroundColor = .white
     }
     
     func setupConstraints() {
-        mainView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        mainView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        mainView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        mainView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        mainView.translatesAutoresizingMaskIntoConstraints = false
+        
+        userImage.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 10).isActive = true
+        userImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        userImage.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        userImage.heightAnchor.constraint(equalToConstant: 120).isActive = true
+        userImage.translatesAutoresizingMaskIntoConstraints = false
     }
 }
