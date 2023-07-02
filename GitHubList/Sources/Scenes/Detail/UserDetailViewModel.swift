@@ -10,14 +10,12 @@ import RxSwift
 import RxCocoa
 import GGDevelopmentKit
 
-
 protocol UserDetailViewModelProtocol {
     // MARK: - Inputs
     var viewDidLoad: PublishSubject<Bool> { get }
     var didTapBack: PublishSubject<Void> { get }
     
     // MARK: - Outputs
-    var navigation: Driver<Navigation<UserDetailViewModel.Route>> { get }
     var serviceState: Driver<Navigation<UserDetailViewModel.State>> { get }
     var userImage: Observable<Data> { get }
     var userDetail: Observable<UserDetail> { get }
@@ -27,7 +25,6 @@ protocol UserDetailViewModelProtocol {
 final class UserDetailViewModel: UserDetailViewModelProtocol {
     
     // MARK: - Definitions
-    typealias DetailNavigation = Navigation<Route>
     typealias ServiceState = Navigation<State>
     
     private let service: UserDetailServiceProtocol
@@ -35,7 +32,7 @@ final class UserDetailViewModel: UserDetailViewModelProtocol {
     private let reposResponse = PublishSubject<[RepoListElement]>()
     private let userImageResponse = PublishSubject<Data>()
     
-    private let user: UserListModel
+    private let user: SimpleUserProtocol
     
     // MARK: - Inputs
     private(set) var viewDidLoad: PublishSubject<Bool> = .init()
@@ -45,20 +42,17 @@ final class UserDetailViewModel: UserDetailViewModelProtocol {
     private(set) var userImage: Observable<Data>
     private(set) var userDetail: Observable<UserDetail> = .never()
     private(set) var repos: Observable<[RepoListElement]> = .never()
-    private(set) var navigation: Driver<DetailNavigation> = .never()
     private(set) var serviceState: Driver<ServiceState> = .never()
     
-    init(user: UserListModel, service: UserDetailServiceProtocol) {
+    init(user: SimpleUserProtocol, service: UserDetailServiceProtocol) {
         self.user = user
         self.service = service
-        
         
         self.userImage = userImageResponse.asObservable()
         self.userDetail = userResponse.asObservable()
         self.repos = reposResponse.asObservable()
         
         self.serviceState = createServiceState()
-        self.navigation = createNavigation()
     }
     
     // MARK: - Internal methods
@@ -105,8 +99,8 @@ final class UserDetailViewModel: UserDetailViewModelProtocol {
                 fetchRepos()
             }
         
-        let fetchUserImage: (() -> Observable<UserDetailViewModel.ServiceState>) = { [user, userImageResponse, service] in
-            return service.fetchUserImage(from: user.avatarURL)
+        let fetchUserImage: ((_ fromURL: String) -> Observable<UserDetailViewModel.ServiceState>) = { [userImageResponse, service] url in
+            return service.fetchUserImage(from: url)
                     .trackActivity(activityIndicator)
                     .do(onNext: { [userImageResponse] res in
                         userImageResponse.onNext(res)
@@ -119,9 +113,9 @@ final class UserDetailViewModel: UserDetailViewModelProtocol {
                     }
         }
         
-        let loadUserImage = viewDidLoad
-            .flatMapLatest { reload in
-                fetchUserImage()
+        let loadUserImage = userResponse
+            .flatMapLatest { user in
+                fetchUserImage(user.avatarURL)
             }
         
         let loadingShown = activityIndicator
@@ -136,15 +130,6 @@ final class UserDetailViewModel: UserDetailViewModelProtocol {
         return Observable
             .merge(loadUser, loadUserImage, loadRepos, loadingShown, errorToShow)
             .asDriverOnErrorJustComplete()
-    }
-    
-    private func createNavigation() -> Driver<DetailNavigation> {
-
-        let routeToBack = didTapBack
-            .map { DetailNavigation(type: .back, info: $0) }
-           
-        return Observable.merge([routeToBack])
-               .asDriver(onErrorRecover: { _ in .never() })
     }
 }
 

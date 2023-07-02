@@ -10,9 +10,9 @@ import GGDevelopmentKit
 
 class UserDetailCoordinator: GGCoordinator {
    
-    let user: UserListModel
+    let user: SimpleUserProtocol
     
-    init(navigationController: UINavigationController, with user: UserListModel) {
+    init(navigationController: UINavigationController, with user: SimpleUserProtocol) {
         self.user = user
         super.init(rootViewController: navigationController)
     }
@@ -23,18 +23,7 @@ class UserDetailCoordinator: GGCoordinator {
         let viewModel = UserDetailViewModel(user: user, service: service)
         let viewController = UserDetailViewController(viewModel: viewModel)
         
-        viewModel.navigation
-            .filter { $0.type == .back}
-            .drive(onNext:  { [backToList] _ in
-                backToList()
-            })
-            .disposed(by: viewController.disposeBag)
-        
-        show(viewController)
-    }
-    
-    private func backToList() {
-        pop()
+        present(viewController)
     }
     
     private func openRepository() {

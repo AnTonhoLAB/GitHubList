@@ -19,7 +19,7 @@ class RepoListCell: UITableViewCell {
     private let languageImage: UIImageView = UIImageView(image: UIImage(systemName: "macbook.and.ipad"))
     private let starImage: UIImageView = UIImageView(image: UIImage(systemName: "star.fill"))
     private let forkImage: UIImageView = UIImageView(image:UIImage(systemName: "tuningfork"))
-    private let eyeImage: UIImageView = UIImageView(image: UIImage(systemName: "eye.circle"))
+    private let eyeImage: UIImageView = UIImageView(image: UIImage(systemName: "eye"))
     
     private let languageNameLabel: UILabel = UILabel()
     private let starCountLabel: UILabel = UILabel()
