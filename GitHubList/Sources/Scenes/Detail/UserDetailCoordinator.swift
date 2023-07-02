@@ -10,9 +10,9 @@ import GGDevelopmentKit
 
 class UserDetailCoordinator: GGCoordinator {
    
-    let user: UserListModel
+    let user: SimpleUserProtocol
     
-    init(navigationController: UINavigationController, with user: UserListModel) {
+    init(navigationController: UINavigationController, with user: SimpleUserProtocol) {
         self.user = user
         super.init(rootViewController: navigationController)
     }

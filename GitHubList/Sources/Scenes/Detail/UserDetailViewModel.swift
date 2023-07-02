@@ -34,7 +34,7 @@ final class UserDetailViewModel: UserDetailViewModelProtocol {
     private let reposResponse = PublishSubject<[RepoListElement]>()
     private let userImageResponse = PublishSubject<Data>()
     
-    private let user: UserListModel
+    private let user: SimpleUserProtocol
     
     // MARK: - Inputs
     private(set) var viewDidLoad: PublishSubject<Bool> = .init()
@@ -47,7 +47,7 @@ final class UserDetailViewModel: UserDetailViewModelProtocol {
     private(set) var navigation: Driver<DetailNavigation> = .never()
     private(set) var serviceState: Driver<ServiceState> = .never()
     
-    init(user: UserListModel, service: UserDetailServiceProtocol) {
+    init(user: SimpleUserProtocol, service: UserDetailServiceProtocol) {
         self.user = user
         self.service = service
         

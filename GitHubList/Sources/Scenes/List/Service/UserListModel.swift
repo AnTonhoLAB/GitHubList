@@ -8,7 +8,15 @@
 import Foundation
 
 // MARK: - UserListElement
-struct UserListModel: Codable {
+protocol SimpleUserProtocol {
+    var login: String { get }
+}
+
+struct SimpleUser: SimpleUserProtocol {
+    let login: String
+}
+
+struct UserListModel: Codable, SimpleUserProtocol {
     let login: String
     let id: Int
     let nodeID: String
