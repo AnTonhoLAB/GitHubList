@@ -20,11 +20,30 @@ class UserDetailViewController: UIViewController, GGAlertableViewController {
     private(set) var userImage = UIImageView()
     private(set) var nickNameLabel: UILabel = UILabel()
     private(set) var nameLabel: UILabel = UILabel()
+    private(set) var reposLabel: UILabel = UILabel()
     private(set) var followersLabel: UILabel = UILabel()
     private(set) var followingLabel: UILabel = UILabel()
+    private lazy var counterStackView: UIStackView = {
+        $0.axis = .horizontal
+        $0.distribution = .fillEqually
+        $0.alignment = .fill
+        return $0
+    }(UIStackView(arrangedSubviews: [self.reposLabel, self.followersLabel, self.followingLabel]))
     private(set) var emailLabel: UILabel = UILabel()
     private(set) var blogLabel: UILabel = UILabel()
+    private lazy var contactStackView: UIStackView = {
+        $0.axis = .vertical
+        $0.distribution = .fillEqually
+        $0.alignment = .fill
+        return $0
+    }(UIStackView(arrangedSubviews: [self.emailLabel, self.blogLabel]))
     private(set) var locationLabel: UILabel = UILabel()
+    private lazy var basicInfo: UIStackView = {
+        $0.axis = .horizontal
+        $0.distribution = .fillEqually
+        $0.alignment = .fill
+        return $0
+    }(UIStackView(arrangedSubviews: [self.nameLabel, self.locationLabel]))
     
     // MARK: - Initializers
     init(viewModel: UserDetailViewModelProtocol) {
@@ -115,6 +134,11 @@ class UserDetailViewController: UIViewController, GGAlertableViewController {
             .map { "\($0.following) \n seguindo"}
             .bind(to: followingLabel.rx.text)
             .disposed(by: disposeBag)
+        
+        viewModel.repos.asObservable()
+            .map { "\($0.count) \n repos"}
+            .bind(to: reposLabel.rx.text)
+            .disposed(by: disposeBag)
     }
     
     private func handle(error: Error) {
@@ -136,17 +160,11 @@ class UserDetailViewController: UIViewController, GGAlertableViewController {
 
 extension UserDetailViewController: ViewCoded {
     func setupViews() {
-//        view.addSubview(mainView)
-        
         view.addSubview(userImage)
         view.addSubview(nickNameLabel)
-        view.addSubview(nameLabel)
-        view.addSubview(followersLabel)
-        view.addSubview(followingLabel)
-        view.addSubview(emailLabel)
-        view.addSubview(blogLabel)
-        view.addSubview(locationLabel)
-        
+        view.addSubview(counterStackView)
+        view.addSubview(contactStackView)
+        view.addSubview(basicInfo)
         
         self.navigationItem.hidesBackButton = true
         self.navigationItem.leftBarButtonItem = backButton
@@ -154,14 +172,64 @@ extension UserDetailViewController: ViewCoded {
     
     func setupViewConfigs() {
         self.view.backgroundColor = .white
+        
+        nickNameLabel.textAlignment = .center
+        nickNameLabel.font = nickNameLabel.font.withSize(22)
+        
+        reposLabel.numberOfLines = 2
+        reposLabel.textAlignment = .center
+        reposLabel.font = followingLabel.font.withSize(12)
+        
+        followersLabel.numberOfLines = 2
+        followersLabel.textAlignment = .center
+        followersLabel.font = followersLabel.font.withSize(12)
+
+        followingLabel.numberOfLines = 2
+        followingLabel.textAlignment = .center
+        followingLabel.font = followingLabel.font.withSize(12)
+        
+        emailLabel.textAlignment = .center
+        emailLabel.font = followingLabel.font.withSize(14)
+        
+        blogLabel.textAlignment = .center
+        blogLabel.font = followingLabel.font.withSize(14)
+        
+        nameLabel.textAlignment = .center
+        nameLabel.font = followingLabel.font.withSize(16)
+        
+        locationLabel.textAlignment = .center
+        locationLabel.font = followingLabel.font.withSize(16)
     }
     
     func setupConstraints() {
         
         userImage.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 10).isActive = true
-        userImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        userImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5).isActive = true
         userImage.widthAnchor.constraint(equalToConstant: 120).isActive = true
         userImage.heightAnchor.constraint(equalToConstant: 120).isActive = true
         userImage.translatesAutoresizingMaskIntoConstraints = false
+        
+        nickNameLabel.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor).isActive = true
+        nickNameLabel.leadingAnchor.constraint(equalTo: userImage.trailingAnchor).isActive = true
+        nickNameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 10).isActive = true
+        nickNameLabel.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        nickNameLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        counterStackView.topAnchor.constraint(equalTo: nickNameLabel.bottomAnchor).isActive = true
+        counterStackView.leadingAnchor.constraint(equalTo: userImage.trailingAnchor).isActive = true
+        counterStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5).isActive = true
+        counterStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        contactStackView.topAnchor.constraint(equalTo: counterStackView.bottomAnchor).isActive = true
+        contactStackView.leadingAnchor.constraint(equalTo: userImage.trailingAnchor).isActive = true
+        contactStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5).isActive = true
+        contactStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        basicInfo.topAnchor.constraint(equalTo: contactStackView.bottomAnchor).isActive = true
+        basicInfo.leadingAnchor.constraint(equalTo: userImage.trailingAnchor).isActive = true
+        basicInfo.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5).isActive = true
+        basicInfo.bottomAnchor.constraint(equalTo: userImage.bottomAnchor).isActive = true
+        basicInfo.translatesAutoresizingMaskIntoConstraints = false
+        
     }
 }

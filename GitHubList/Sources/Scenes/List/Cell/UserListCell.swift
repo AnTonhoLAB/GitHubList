@@ -20,6 +20,12 @@ class UserListCell: UITableViewCell {
     private(set) var nameLabel: UILabel = UILabel()
     private(set) var followersLabel: UILabel = UILabel()
     private(set) var followingLabel: UILabel = UILabel()
+    private lazy var counterStackView: UIStackView = {
+        $0.axis = .horizontal
+        $0.distribution = .fillEqually
+        $0.alignment = .fill
+        return $0
+    }(UIStackView(arrangedSubviews: [self.followersLabel, self.followingLabel]))
     
     // MARK: - Public methods
     func setup(with viewModel: UserListCellViewModelProtocol) {
@@ -68,9 +74,7 @@ extension UserListCell: ViewCoded {
         
         self.contentView.addSubview(userImage)
         self.contentView.addSubview(nameLabel)
-        self.contentView.addSubview(followersLabel)
-        self.contentView.addSubview(followingLabel)
-    
+        self.contentView.addSubview(counterStackView)
     }
     
     internal func setupViewConfigs() {
@@ -95,19 +99,16 @@ extension UserListCell: ViewCoded {
         
         nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
         nameLabel.leadingAnchor.constraint(equalTo: userImage.trailingAnchor, constant: 10).isActive = true
+        nameLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
         nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        followingLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
-        followingLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        followingLabel.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        followingLabel.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        followingLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        followersLabel.trailingAnchor.constraint(equalTo: followingLabel.leadingAnchor).isActive = true
-        followersLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        followersLabel.heightAnchor.constraint(equalTo: followingLabel.heightAnchor).isActive = true
-        followersLabel.widthAnchor.constraint(equalTo: followingLabel.widthAnchor).isActive = true
-        followersLabel.translatesAutoresizingMaskIntoConstraints = false
+        counterStackView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10).isActive = true
+        counterStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        counterStackView.leadingAnchor.constraint(equalTo: userImage.trailingAnchor, constant: 10).isActive = true
+        counterStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
+        counterStackView.translatesAutoresizingMaskIntoConstraints = false
+        
     }
 }

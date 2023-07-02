@@ -21,7 +21,7 @@ struct UserDetail: Codable {
     let receivedEventsURL: String?
     let type: String
     let siteAdmin: Bool
-    let name: String
+    let name: String?
     let company: String?
     let blog, location: String?
     let email, hireable: String?
