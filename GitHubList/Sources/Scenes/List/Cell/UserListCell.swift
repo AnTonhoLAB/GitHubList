@@ -4,6 +4,7 @@
 //
 //  Created by George Gomes on 01/07/23.
 //
+
 import UIKit
 import RxSwift
 import GGDevelopmentKit
@@ -79,14 +80,17 @@ extension UserListCell: ViewCoded {
     
     internal func setupViewConfigs() {
         nameLabel.textAlignment = .center
+        nameLabel.font = UIFont.boldSystemFont(ofSize: 22)
         
         followingLabel.font = followingLabel.font.withSize(14)
         followingLabel.textAlignment = .center
         followingLabel.numberOfLines = 2
+        followingLabel.textColor = .darkGray
         
         followersLabel.font = followersLabel.font.withSize(14)
         followersLabel.textAlignment = .center
         followersLabel.numberOfLines = 2
+        followersLabel.textColor = .darkGray
     }
     
     internal func setupConstraints() {

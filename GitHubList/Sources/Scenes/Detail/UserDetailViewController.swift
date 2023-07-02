@@ -16,34 +16,40 @@ class UserDetailViewController: UIViewController, GGAlertableViewController {
     let disposeBag = DisposeBag()
     
     // MARK: - Views
-    private(set) lazy var backButton: UIBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: nil)
-    private(set) var userImage = UIImageView()
-    private(set) var nickNameLabel: UILabel = UILabel()
-    private(set) var nameLabel: UILabel = UILabel()
-    private(set) var reposLabel: UILabel = UILabel()
-    private(set) var followersLabel: UILabel = UILabel()
-    private(set) var followingLabel: UILabel = UILabel()
+    private lazy var backButton: UIBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: nil)
+    private let userImage = UIImageView()
+    private let nickNameLabel: UILabel = UILabel()
+    private let nameLabel: UILabel = UILabel()
+    private let reposLabel: UILabel = UILabel()
+    private let followersLabel: UILabel = UILabel()
+    private let followingLabel: UILabel = UILabel()
     private lazy var counterStackView: UIStackView = {
         $0.axis = .horizontal
         $0.distribution = .fillEqually
         $0.alignment = .fill
         return $0
     }(UIStackView(arrangedSubviews: [self.reposLabel, self.followersLabel, self.followingLabel]))
-    private(set) var emailLabel: UILabel = UILabel()
-    private(set) var blogLabel: UILabel = UILabel()
+    private let emailLabel: UILabel = UILabel()
+    private let blogLabel: UILabel = UILabel()
     private lazy var contactStackView: UIStackView = {
         $0.axis = .vertical
         $0.distribution = .fillEqually
         $0.alignment = .fill
         return $0
     }(UIStackView(arrangedSubviews: [self.emailLabel, self.blogLabel]))
-    private(set) var locationLabel: UILabel = UILabel()
+    private let locationLabel: UILabel = UILabel()
     private lazy var basicInfo: UIStackView = {
         $0.axis = .horizontal
         $0.distribution = .fillEqually
         $0.alignment = .fill
         return $0
     }(UIStackView(arrangedSubviews: [self.nameLabel, self.locationLabel]))
+    lazy var reposTableView: UITableView = {
+        $0.register(RepoListCell.self, forCellReuseIdentifier: RepoListCell.identifier)
+        $0.rowHeight = 100
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        return $0
+    }(UITableView(frame: .zero))
     
     // MARK: - Initializers
     init(viewModel: UserDetailViewModelProtocol) {
@@ -139,6 +145,12 @@ class UserDetailViewController: UIViewController, GGAlertableViewController {
             .map { "\($0.count) \n repos"}
             .bind(to: reposLabel.rx.text)
             .disposed(by: disposeBag)
+        
+        viewModel.repos.asObservable()
+            .bind(to: reposTableView.rx.items(cellIdentifier: RepoListCell.identifier, cellType: RepoListCell.self)){ (row, repo, cell) in
+                cell.setup(with: repo)
+            }
+            .disposed(by: disposeBag)
     }
     
     private func handle(error: Error) {
@@ -165,6 +177,7 @@ extension UserDetailViewController: ViewCoded {
         view.addSubview(counterStackView)
         view.addSubview(contactStackView)
         view.addSubview(basicInfo)
+        view.addSubview(reposTableView)
         
         self.navigationItem.hidesBackButton = true
         self.navigationItem.leftBarButtonItem = backButton
@@ -173,6 +186,8 @@ extension UserDetailViewController: ViewCoded {
     func setupViewConfigs() {
         self.view.backgroundColor = .white
         
+        nickNameLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        nickNameLabel.textColor = .darkText
         nickNameLabel.textAlignment = .center
         nickNameLabel.font = nickNameLabel.font.withSize(22)
         
@@ -230,6 +245,12 @@ extension UserDetailViewController: ViewCoded {
         basicInfo.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5).isActive = true
         basicInfo.bottomAnchor.constraint(equalTo: userImage.bottomAnchor).isActive = true
         basicInfo.translatesAutoresizingMaskIntoConstraints = false
+        
+        reposTableView.topAnchor.constraint(equalTo: basicInfo.bottomAnchor, constant: 10).isActive = true
+        reposTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        reposTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        reposTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        reposTableView.translatesAutoresizingMaskIntoConstraints = false
         
     }
 }

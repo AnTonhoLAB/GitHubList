@@ -124,7 +124,6 @@ final class UserDetailViewModel: UserDetailViewModelProtocol {
                 fetchUserImage()
             }
         
-
         let loadingShown = activityIndicator
             .filter { $0 }
             .map { _ in ServiceState(type: .loading) }
